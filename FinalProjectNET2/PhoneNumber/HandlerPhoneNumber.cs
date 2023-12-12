@@ -26,20 +26,13 @@ namespace FinalProjectNET2
                 Number = "450-444-2312",
                 Type = "Work",
 
-
-
-
             };
             PhoneNumber newP2 = new PhoneNumber()
             {
                 Number = "450-312-444",
                 Type = "Home",
 
-
-
             };
-
-
 
             //seed the table
             AddPhone(newP1);

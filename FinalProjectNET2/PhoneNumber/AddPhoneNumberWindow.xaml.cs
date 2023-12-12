@@ -37,11 +37,5 @@ namespace FinalProjectNET2
             db.AddPhone(newPhone);
             Close();
         }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Close the window and return false to indicate cancellation
-            DialogResult = false;
-        }
     }
 }

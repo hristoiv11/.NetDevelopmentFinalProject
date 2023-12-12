@@ -20,28 +20,30 @@ namespace FinalProjectNET2
 
     public partial class PhoneNumberDetailsWindow : Window
     {
-        PhoneNumber phoneNumber;
+        PhoneNumber phoneNumber2;
         public PhoneNumberDetailsWindow(PhoneNumber phoneNumber)
         {
             InitializeComponent();
-            this.phoneNumber = phoneNumber;
+            this.phoneNumber2 = phoneNumber;
 
             //Display the user
 
             NumberTextBox.Text = phoneNumber.Number;
-            TypeTextBox.Text = phoneNumber.Number;
+            TypeTextBox.Text = phoneNumber.Type;
 
         }
 
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePhoneNumberWindow updatephoneNumber = new UpdatePhoneNumberWindow(phoneNumber);
+            UpdatePhoneNumberWindow updatephoneNumber = new UpdatePhoneNumberWindow(phoneNumber2);
             updatephoneNumber.ShowDialog();
             Close();
         }
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
+            HandlerPhoneNumber pn = HandlerPhoneNumber.Instance;
+            
 
         }
     }
