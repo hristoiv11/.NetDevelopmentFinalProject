@@ -1,0 +1,36 @@
+﻿<Window x:Class="FinalProjectNET2.UpdateEducationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinalProjectNET2"
+        mc:Ignorable="d"
+        Title="UpdateEducationWindow" Height="400" Width="400">
+    <Grid>
+
+        <StackPanel>
+            <Label Content="Education Window"/>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Institution Name:"/>
+                <TextBox x:Name="nameTextBox"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Level:"/>
+                <TextBox x:Name="levelTextBox"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Address:"/>
+                <TextBox x:Name="addressTextBox"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click"/>
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

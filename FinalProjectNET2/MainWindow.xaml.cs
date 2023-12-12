@@ -24,11 +24,15 @@ namespace FinalProjectNET2
         HandlerPhoneNumber db = HandlerPhoneNumber.Instance;
         List<PhoneNumber> phoneNumbers;
 
+        HandlerEducation e = HandlerEducation.Instance;
+        List<Education> educations;
+
 
         public MainWindow()
         {
             InitializeComponent();
             RefreshhAllPhoneNumberList();
+            RefreshAllEducationList();
 
 
         }
@@ -38,6 +42,13 @@ namespace FinalProjectNET2
             AllPhoneNumberDataGrid.ItemsSource = null;
             phoneNumbers = db.ReadAllPhoneNumbers();
             AllPhoneNumberDataGrid.ItemsSource = phoneNumbers;
+        }
+
+        private void RefreshAllEducationList()
+        {
+            AllEducationGrid.ItemsSource = null;
+            educations = e.ReadAllEducations();
+            AllEducationGrid.ItemsSource= educations;
         }
 
         private void AllPhoneNumberGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -52,6 +63,18 @@ namespace FinalProjectNET2
             }
         }
 
+        private void AllEducationGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Education education = (Education)AllEducationGrid.SelectedItem;
+
+            if (education != null)
+            {
+                EducationDetailsWindow educationDetailsWindow = new EducationDetailsWindow(education);
+                educationDetailsWindow.ShowDialog();
+                RefreshAllEducationList();
+            }
+        }
+
         private void AddPhoneNumber_Click(object sender, RoutedEventArgs e)
         {
             AddPhoneNumberWindow addPhoneNumberWindow = new AddPhoneNumberWindow();
@@ -61,21 +84,21 @@ namespace FinalProjectNET2
             RefreshhAllPhoneNumberList();
         }
 
+        private void AddEducation_Click(object sender, RoutedEventArgs e)
+        {
+            AddEducationWindow addEducationWindow = new AddEducationWindow();
+
+            addEducationWindow.ShowDialog();
+            RefreshAllEducationList();
+
+        }
         private void AllReferencesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void AddEducation_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
         private void AddReference_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AllEducationGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

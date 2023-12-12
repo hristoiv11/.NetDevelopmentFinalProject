@@ -1,5 +1,4 @@
-﻿using FinalProjectNET2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,25 +15,24 @@ using System.Windows.Shapes;
 namespace FinalProjectNET2
 {
     /// <summary>
-    /// Interaction logic for AddPhoneNumberWindow.xaml
+    /// Interaction logic for AddEducationWindow.xaml
     /// </summary>
-    public partial class AddPhoneNumberWindow : Window
+    public partial class AddEducationWindow : Window
     {
-
-        public AddPhoneNumberWindow()
+        public AddEducationWindow()
         {
             InitializeComponent();
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            PhoneNumber newPhone = new PhoneNumber();
-            newPhone.Number = phoneNumberTextBox.Text;
-            newPhone.Type = typeTextBox.Text;
+            Education education = new Education();
+            education.InstitutionName = nameTextBox.Text;
+            education.Level = levelTextBox.Text;
+            education.Address = addressTextBox.Text;
 
-
-            HandlerPhoneNumber db = HandlerPhoneNumber.Instance;
-            db.AddPhoneNumber(newPhone);
+            HandlerEducation ed = HandlerEducation.Instance;
+            ed.AddEducation(education);
             Close();
         }
     }

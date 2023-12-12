@@ -11,13 +11,13 @@ namespace FinalProjectNET2
         public int PhoneNumberId { get; set; }
         public string Number { get; set; }
         public string Type { get; set; } // Home, Work, Mobile, etc.
-        public int ResumeId { get; set; } // Foreign key referencing the main resume table
+        // Foreign key referencing the main resume table
 
 
 
         public override string ToString()
         {
-            string formattted = string.Format("{0}\t {1}\t {2}\t| {3}\t ", PhoneNumberId, Number, Type, ResumeId);
+            string formattted = string.Format("{0}\t {1}\t {2}\t", PhoneNumberId, Number, Type);
             return formattted;
         }
     }

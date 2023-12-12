@@ -36,7 +36,7 @@ namespace FinalProjectNET2
             phoneNumber2.Type = typeTextBox.Text;
 
             HandlerPhoneNumber pn = HandlerPhoneNumber.Instance;
-            pn.UpdatePhone(phoneNumber2);
+            pn.UpdatePhoneNumber(phoneNumber2);
             Close();
 
         }

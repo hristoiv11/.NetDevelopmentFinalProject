@@ -33,10 +33,17 @@ namespace FinalProjectNET2
                 Type = "Home",
 
             };
+            PhoneNumber newP3 = new PhoneNumber()
+            {
+                Number = "514-222-333",
+                Type = "Personal",
+
+            };
 
             //seed the table
-            AddPhone(newP1);
-            AddPhone(newP2);
+            AddPhoneNumber(newP1);
+            AddPhoneNumber(newP2);
+            AddPhoneNumber(newP3);
         }
 
         public static HandlerPhoneNumber Instance
@@ -55,13 +62,13 @@ namespace FinalProjectNET2
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table PhoneNumber (PhoneNumberId integer primary key, Number text, Type text, ResumeId integer);";
+                string table = "create table PhoneNumber (PhoneNumberId integer primary key, Number text, Type text);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
         }
 
-        public int AddPhone(PhoneNumber phoneNumber)
+        public int AddPhoneNumber(PhoneNumber phoneNumber)
         {
             // Implement your AddPhone method logic here, using the SQLite code provided
             // Ensure to use the SQLite operations for inserting a new phone number
@@ -128,7 +135,7 @@ namespace FinalProjectNET2
             return phoneNumber;
         }
 
-        public int UpdatePhone(PhoneNumber phoneNumber)
+        public int UpdatePhoneNumber(PhoneNumber phoneNumber)
         {
             int row = 0;
 
@@ -136,14 +143,14 @@ namespace FinalProjectNET2
             {
                 conn.Open();
 
-                string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type, ResumeId = @ResumeId WHERE PhoneNumberId = @PhoneNuberId";
+                string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type WHERE PhoneNumberId = @PhoneNumberId";
 
 
                 SQLiteCommand updatecom = new SQLiteCommand(query, conn);
                 updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
                 updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
                 updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
-                updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
+                
 
                 try
                 {
@@ -157,6 +164,33 @@ namespace FinalProjectNET2
             }
             return row;
         }
+
+        public int DeletePhoneNumber(PhoneNumber phoneNumber)
+        {
+            int row = 0;
+
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
+
+                string query = "Delete From PhoneNumber WHERE PhoneNumberId = @PhoneNumberId";
+                SQLiteCommand deletecom = new SQLiteCommand(query, conn);
+                deletecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
+
+                try
+                {
+                    row = deletecom.ExecuteNonQuery();
+
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine("Error Generated. Details:" + e.ToString());
+                }
+
+                return row;
+            }
+        }
+
         public List<PhoneNumber> ReadAllPhoneNumbers()
         {
             List<PhoneNumber> listPhoneNumbers = new List<PhoneNumber>();

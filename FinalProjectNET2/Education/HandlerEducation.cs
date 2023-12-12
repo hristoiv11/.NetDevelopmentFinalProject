@@ -21,19 +21,16 @@ namespace FinalProjectNET2
         {
             CreateTable();
 
-            Education newEd = new Education()
+            Education newEd1 = new Education()
             {
-                Name = "Saint-Lamber Highschool",
+                InstitutionName = "Saint-Lamber Highschool",
                 Level = "High-School",
                 Address = "750 rue Green",
-
-
-
 
             };
 
             //seed the table
-            AddEducation(newEd);
+            AddEducation(newEd1);
 
         }
 
@@ -53,7 +50,7 @@ namespace FinalProjectNET2
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table Education (EducationId integer primary key, Name text, Level text, Address text);";
+                string table = "create table Education (EducationId integer primary key, InstitutionName text, Level text, Address text);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
@@ -72,10 +69,10 @@ namespace FinalProjectNET2
             {
                 con.Open();
 
-                string query = "INSERT INTO Education (Name,Level,Address) VALUES (@Name, @Level, @Address)";
+                string query = "INSERT INTO Education (InstitutionName,Level,Address) VALUES (@InstitutionName, @Level, @Address)";
                 SQLiteCommand insertcom = new SQLiteCommand(query, con);
 
-                insertcom.Parameters.AddWithValue("@Name", education.Name);
+                insertcom.Parameters.AddWithValue("@InstitutionName", education.InstitutionName);
                 insertcom.Parameters.AddWithValue("@Level", education.Level);
                 insertcom.Parameters.AddWithValue("@Address", education.Address);
 
@@ -114,12 +111,12 @@ namespace FinalProjectNET2
                 {
                     while (reader.Read())
                     {
-                        if (int.TryParse(reader["EducationId"].ToString(), out int id2))
+                        if (Int32.TryParse(reader["EducationId"].ToString(), out int id2))
                         {
                             education.EducationId = id2;
                         }
 
-                        education.Name = reader["Name"].ToString();
+                        education.InstitutionName = reader["InstitutionName"].ToString();
                         education.Level = reader["Level"].ToString();
                         education.Address = reader["Address"].ToString();
                     }
@@ -128,7 +125,7 @@ namespace FinalProjectNET2
             return education;
         }
 
-        public int UpdatePhone(PhoneNumber phoneNumber)
+        public int UpdateEducation(Education education)
         {
             int row = 0;
 
@@ -136,14 +133,15 @@ namespace FinalProjectNET2
             {
                 conn.Open();
 
-                string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type, ResumeId = @ResumeId WHERE PhoneNumberId = @PhoneNuberId";
+                string query = "UPDATE Education SET InstitutionName = @InstitutionsName , Level = @Level,Address = @Address WHERE EducationId = @EducationId";
 
 
                 SQLiteCommand updatecom = new SQLiteCommand(query, conn);
-                updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
-                updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
-                updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
-                updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
+                updatecom.Parameters.AddWithValue("@EducationId", education.EducationId);
+                updatecom.Parameters.AddWithValue("@InstitutionName", education.InstitutionName);
+                updatecom.Parameters.AddWithValue("@Level", education.Level);
+                updatecom.Parameters.AddWithValue("@Address", education.Address);
+                
 
                 try
                 {
@@ -157,7 +155,33 @@ namespace FinalProjectNET2
             }
             return row;
         }
-        public List<Education> ReadAllEducation()
+
+        public int DeleteEducation(Education education)
+        {
+            int row = 0;
+
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
+
+                string query = "Delete From Education WHERE EducationId = @EducationId";
+                SQLiteCommand deletecom = new SQLiteCommand(query, conn);
+                deletecom.Parameters.AddWithValue("@EducationId", education.EducationId);
+
+                try
+                {
+                    row = deletecom.ExecuteNonQuery();
+
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine("Error Generated. Details:" + e.ToString());
+                }
+
+                return row;
+            }
+        }
+        public List<Education> ReadAllEducations()
         {
             List<Education> listEducation = new List<Education>();
 
@@ -171,12 +195,12 @@ namespace FinalProjectNET2
                     while (reader.Read())
                     {
                         Education education = new Education();
-                        if (int.TryParse(reader["EducationId"].ToString(), out int id))
+                        if (Int32.TryParse(reader["EducationId"].ToString(), out int id))
                         {
                             education.EducationId = id;
                         }
 
-                        education.Name = reader["Name"].ToString();
+                        education.InstitutionName = reader["InstitutionName"].ToString();
                         education.Level = reader["Level"].ToString();
                         education.Address = reader["Address"].ToString();
 

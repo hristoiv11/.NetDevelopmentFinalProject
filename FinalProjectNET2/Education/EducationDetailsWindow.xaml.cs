@@ -15,36 +15,34 @@ using System.Windows.Shapes;
 namespace FinalProjectNET2
 {
     /// <summary>
-    /// Interaction logic for PhoneNumberDetailsWindow.xaml
+    /// Interaction logic for EducationDetailsWindow.xaml
     /// </summary>
-
-    public partial class PhoneNumberDetailsWindow : Window
+    public partial class EducationDetailsWindow : Window
     {
-        PhoneNumber phoneNumber2;
-        public PhoneNumberDetailsWindow(PhoneNumber phoneNumber)
+        Education education2;
+        public EducationDetailsWindow(Education education)
         {
             InitializeComponent();
-            this.phoneNumber2 = phoneNumber;
+            this.education2 = education;
 
-            //Display the user
-
-            NumberTextBox.Text = phoneNumber.Number;
-            TypeTextBox.Text = phoneNumber.Type;
+            nameTextBox.Text = education.InstitutionName;
+            levelTextBox.Text = education.Level;
+            addressTextBox.Text = education.Address; 
 
         }
 
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePhoneNumberWindow updatephoneNumber = new UpdatePhoneNumberWindow(phoneNumber2);
-            updatephoneNumber.ShowDialog();
+            UpdateEducationWindow updateEducation = new UpdateEducationWindow(education2);
+            updateEducation.ShowDialog();
             Close();
         }
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-            HandlerPhoneNumber pn = HandlerPhoneNumber.Instance;
-            pn.DeletePhoneNumber(phoneNumber2);
-            Close();
+            HandlerEducation he = HandlerEducation.Instance;
+            he.DeleteEducation(education2);
+            Close();  
         }
     }
 }
