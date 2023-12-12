@@ -15,39 +15,36 @@ using System.Windows.Shapes;
 namespace FinalProjectNET2
 {
     /// <summary>
-    /// Interaction logic for HobbiesDetailsWindow.xaml
+    /// Interaction logic for ReferenceDetailsWindow.xaml
     /// </summary>
-    public partial class HobbiesDetailsWindow : Window
+    public partial class ReferenceDetailsWindow : Window
     {
-        public HobbiesDetailsWindow()
+        References references2;
+        public ReferenceDetailsWindow(References references)
         {
             InitializeComponent();
-        }
-
-        Hobbies hobbies2;
-        public HobbiesDetailsWindow(Hobbies hobbies)
-        {
-            InitializeComponent();
-            this.hobbies2 = hobbies;
+            this.references2 = references;
 
             //Display the user
 
-            DescriptionTextBox.Text = hobbies.Description;
-
-            TypeTextBox.Text = hobbies.Type;
+            NameTextBox.Text = references.Name;
+            descriptionTextBox.Text = references.Description;
+            phoneNumberTextBox.Text = references.PhoneNumber;
 
         }
 
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
         {
-            UpdateHobbieWindow updateHobbie = new UpdateHobbieWindow(hobbies2);
-            updateHobbie.ShowDialog();
+            UpdateReferenceWindow updateReference = new UpdateReferenceWindow(references2);
+            updateReference.ShowDialog();
             Close();
         }
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-
+            //HandlerReferences pn = HandlerReferences.Instance;
+            //pn.DeleteReference(references2);
+            //Close();
         }
     }
 }

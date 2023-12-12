@@ -8,45 +8,34 @@ using System.Threading.Tasks;
 
 namespace FinalProjectNET2
 {
-    public sealed class HandlerHobbies
+    public sealed class HandlerReferences
     {
 
         static readonly string Constring = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
 
-        static readonly HandlerHobbies instance = new HandlerHobbies();
+        static readonly HandlerReferences instance = new HandlerReferences();
 
 
 
-        private HandlerHobbies()
+        private HandlerReferences()
         {
             CreateTable();
 
-            Hobbies newHobbie = new Hobbies()
+            References newRef = new References()
             {
-                Description = "I like to read romance books",
-                Type = "Reading",
-
-
-
+                Name = "Jhon Pearson",
+                Description = "Employee of my last job",
+                PhoneNumber = "450-347-2020"
 
             };
-            Hobbies newHobbie2 = new Hobbies()
-            {
-                Description = "Sitting next to a fire place to relax and think",
-                Type = "Meditation",
-
-
-
-            };
-
-
+           
 
             //seed the table
-            AddHobbie(newHobbie);
-            AddHobbie(newHobbie2);
+            AddReference(newRef);
+           
         }
 
-        public static HandlerHobbies Instance
+        public static HandlerReferences Instance
         {
             get { return instance; }
         }
@@ -58,17 +47,17 @@ namespace FinalProjectNET2
 
             {
                 con.Open();
-                string drop = "drop table if exists Hobbies;";
+                string drop = "drop table if exists References;";
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table Hobbies (HobbiesId integer primary key, Description text, Type text);";
+                string table = "create table References (ReferenceId integer primary key, Name text, Description text, PhoneNumber text);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
         }
 
-        public int AddHobbie(Hobbies hobbies)
+        public int AddReference(References references)
         {
             // Implement your AddPhone method logic here, using the SQLite code provided
             // Ensure to use the SQLite operations for inserting a new phone number
@@ -81,11 +70,12 @@ namespace FinalProjectNET2
             {
                 con.Open();
 
-                string query = "INSERT INTO Hobbies (Description,Type) VALUES (@Description, @Type)";
+                string query = "INSERT INTO References (Name,Description,PhoneNumber) VALUES (@Name, @Description, @PhoneNumber)";
                 SQLiteCommand insertcom = new SQLiteCommand(query, con);
 
-                insertcom.Parameters.AddWithValue("@Description", hobbies.Description);
-                insertcom.Parameters.AddWithValue("@Type", hobbies.Type);
+                insertcom.Parameters.AddWithValue("@Name", references.Name);
+                insertcom.Parameters.AddWithValue("@Description", references.Description);
+                insertcom.Parameters.AddWithValue("@PhoneNumber", references.PhoneNumber);
 
                 try
                 {
@@ -107,35 +97,36 @@ namespace FinalProjectNET2
             return newId;
         }
 
-        public Hobbies GetHobbie(int id)
+        public References GetReference(int id)
         {
-            Hobbies hobbie = new Hobbies();
+            References references = new References();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
 
-                SQLiteCommand getcom = new SQLiteCommand("Select * from Hobbies WHERE HobbiesId = @HobbiesId", conn);
-                getcom.Parameters.AddWithValue("@HobbiesId", id);
+                SQLiteCommand getcom = new SQLiteCommand("Select * from References WHERE ReferenceId = @ReferenceId", conn);
+                getcom.Parameters.AddWithValue("@ReferenceId", id);
 
                 using (SQLiteDataReader reader = getcom.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if (int.TryParse(reader["HobbiesId"].ToString(), out int id2))
+                        if (Int32.TryParse(reader["ReferenceId"].ToString(), out int id2))
                         {
-                            hobbie.HobbiesId = id2;
+                            references.ReferenceId = id2;
                         }
 
-                        hobbie.Description = reader["Description"].ToString();
-                        hobbie.Type = reader["Type"].ToString();
+                        references.Name = reader["Name"].ToString();
+                        references.Description = reader["Description"].ToString();
+                        references.PhoneNumber = reader["PhoneNumber"].ToString();
                     }
                 }
             }
-            return hobbie;
+            return references;
         }
 
-        //public int UpdateHobbie(Hobbies hobbies)
+        //public int UpdatePhoneNumber(PhoneNumber phoneNumber)
         //{
         //    int row = 0;
 
@@ -143,14 +134,14 @@ namespace FinalProjectNET2
         //    {
         //        conn.Open();
 
-        //        string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type, ResumeId = @ResumeId WHERE PhoneNumberId = @PhoneNuberId";
+        //        string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type WHERE PhoneNumberId = @PhoneNumberId";
 
 
         //        SQLiteCommand updatecom = new SQLiteCommand(query, conn);
         //        updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
         //        updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
         //        updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
-        //        updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
+
 
         //        try
         //        {
@@ -164,36 +155,64 @@ namespace FinalProjectNET2
         //    }
         //    return row;
         //}
-        public List<Hobbies> ReadAllHobbies()
+
+        //public int DeletePhoneNumber(PhoneNumber phoneNumber)
+        //{
+        //    int row = 0;
+
+        //    using (SQLiteConnection conn = new SQLiteConnection(Constring))
+        //    {
+        //        conn.Open();
+
+        //        string query = "Delete From PhoneNumber WHERE PhoneNumberId = @PhoneNumberId";
+        //        SQLiteCommand deletecom = new SQLiteCommand(query, conn);
+        //        deletecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
+
+        //        try
+        //        {
+        //            row = deletecom.ExecuteNonQuery();
+
+        //        }
+        //        catch (SQLiteException e)
+        //        {
+        //            Console.WriteLine("Error Generated. Details:" + e.ToString());
+        //        }
+
+        //        return row;
+        //    }
+        //}
+
+        public List<References> ReadAllReferences()
         {
-            List<Hobbies> listHobbies = new List<Hobbies>();
+            List<References> listReferences = new List<References>();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
-                SQLiteCommand com = new SQLiteCommand("Select * from Hobbies", conn);
+                SQLiteCommand com = new SQLiteCommand("Select * from References", conn);
 
                 using (SQLiteDataReader reader = com.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Hobbies hobbies = new Hobbies();
-                        if (int.TryParse(reader["HobbiesId"].ToString(), out int id))
+                        References references = new References();
+                        if (Int32.TryParse(reader["ReferenceId"].ToString(), out int id))
                         {
-                            hobbies.HobbiesId = id;
+                            references.ReferenceId = id;
                         }
 
-                        hobbies.Description = reader["Description"].ToString();
-                        hobbies.Type = reader["Type"].ToString();
+                        references.Name = reader["Name"].ToString();
+                        references.Description = reader["Description"].ToString();
+                        references.PhoneNumber = reader["PhoneNumber"].ToString();
 
 
-                        listHobbies.Add(hobbies);
+                        listReferences.Add(references);
                     }
                 }
 
             }
 
-            return listHobbies;
+            return listReferences;
 
         }
     }
