@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -8,32 +7,32 @@ using System.Threading.Tasks;
 
 namespace FinalProjectNET2
 {
-    public sealed class HandlerPhoneNumber
+    public sealed class HandlerHobbies
     {
 
         static readonly string Constring = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
 
-        static readonly HandlerPhoneNumber instance = new HandlerPhoneNumber();
+        static readonly HandlerHobbies instance = new HandlerHobbies();
 
-        
 
-        private HandlerPhoneNumber()
+
+        private HandlerHobbies()
         {
             CreateTable();
 
-            PhoneNumber newP1 = new PhoneNumber()
+            Hobbies newHobbie = new Hobbies()
             {
-                Number = "450-444-2312",
-                Type = "Work",
+                Description = "I like to read romance books",
+                Type = "Reading",
 
 
 
 
             };
-            PhoneNumber newP2 = new PhoneNumber()
+            Hobbies newHobbie2 = new Hobbies()
             {
-                Number = "450-312-444",
-                Type = "Home",
+                Description = "Sitting next to a fire place to relax and think",
+                Type = "Meditation",
 
 
 
@@ -42,11 +41,11 @@ namespace FinalProjectNET2
 
 
             //seed the table
-            AddPhone(newP1);
-            AddPhone(newP2);
+            AddHobbie(newHobbie);
+            AddHobbie(newHobbie2);
         }
 
-        public static HandlerPhoneNumber Instance
+        public static HandlerHobbies Instance
         {
             get { return instance; }
         }
@@ -58,17 +57,17 @@ namespace FinalProjectNET2
 
             {
                 con.Open();
-                string drop = "drop table if exists PhoneNumber;";
+                string drop = "drop table if exists Hobbies;";
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table PhoneNumber (PhoneNumberId integer primary key, Number text, Type text, ResumeId integer);";
+                string table = "create table Hobbies (HobbiesId integer primary key, Description text, Type text);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
         }
 
-        public int AddPhone(PhoneNumber phoneNumber)
+        public int AddHobbie(Hobbies hobbies)
         {
             // Implement your AddPhone method logic here, using the SQLite code provided
             // Ensure to use the SQLite operations for inserting a new phone number
@@ -81,11 +80,11 @@ namespace FinalProjectNET2
             {
                 con.Open();
 
-                string query = "INSERT INTO PhoneNumber (Number,Type) VALUES (@Number, @Type)";
+                string query = "INSERT INTO Hobbies (Description,Type) VALUES (@Description, @Type)";
                 SQLiteCommand insertcom = new SQLiteCommand(query, con);
 
-                insertcom.Parameters.AddWithValue("@Number", phoneNumber.Number);
-                insertcom.Parameters.AddWithValue("@Type", phoneNumber.Type);
+                insertcom.Parameters.AddWithValue("@Description", hobbies.Description);
+                insertcom.Parameters.AddWithValue("@Type", hobbies.Type);
 
                 try
                 {
@@ -107,32 +106,32 @@ namespace FinalProjectNET2
             return newId;
         }
 
-        public PhoneNumber GetPhoneNumber(int id)
+        public Hobbies GetHobbie(int id)
         {
-            PhoneNumber phoneNumber = new PhoneNumber();
+            Hobbies hobbie = new Hobbies();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
 
-                SQLiteCommand getcom = new SQLiteCommand("Select * from PhoneNumber WHERE PhoneNumberId = @PhoneNumberId", conn);
-                getcom.Parameters.AddWithValue("@PhoneNumberId", id);
+                SQLiteCommand getcom = new SQLiteCommand("Select * from Hobbies WHERE HobbiesId = @HobbiesId", conn);
+                getcom.Parameters.AddWithValue("@HobbiesId", id);
 
                 using (SQLiteDataReader reader = getcom.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if (Int32.TryParse(reader["PhoneNumberId"].ToString(), out int id2))
+                        if (Int32.TryParse(reader["HobbiesId"].ToString(), out int id2))
                         {
-                            phoneNumber.PhoneNumberId = id2;
+                            hobbie.HobbiesId = id2;
                         }
 
-                        phoneNumber.Number = reader["Number"].ToString();
-                        phoneNumber.Type = reader["Type"].ToString();
+                        hobbie.Description = reader["Description"].ToString();
+                        hobbie.Type = reader["Type"].ToString();
                     }
                 }
             }
-            return phoneNumber;
+            return hobbie;
         }
 
         public int UpdatePhone(PhoneNumber phoneNumber)
@@ -164,36 +163,36 @@ namespace FinalProjectNET2
             }
             return row;
         }
-        public List<PhoneNumber> ReadAllPhoneNumbers()
+        public List<Hobbies> ReadAllHobbies()
         {
-            List<PhoneNumber> listPhoneNumbers = new List<PhoneNumber>();
+            List<Hobbies> listHobbies = new List<Hobbies>();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
-                SQLiteCommand com = new SQLiteCommand("Select * from PhoneNumber", conn);
+                SQLiteCommand com = new SQLiteCommand("Select * from Hobbies", conn);
 
                 using (SQLiteDataReader reader = com.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        PhoneNumber phoneNumber = new PhoneNumber();
+                        Hobbies hobbies = new Hobbies();
                         if (Int32.TryParse(reader["PhoneNumberId"].ToString(), out int id))
                         {
-                            phoneNumber.PhoneNumberId = id;
+                            hobbies.HobbiesId = id;
                         }
 
-                        phoneNumber.Number = reader["Number"].ToString();
-                        phoneNumber.Type = reader["Type"].ToString();
+                        hobbies.Description = reader["Description"].ToString();
+                        hobbies.Type = reader["Type"].ToString();
 
 
-                        listPhoneNumbers.Add(phoneNumber);
+                        listHobbies.Add(hobbies);
                     }
                 }
 
             }
 
-            return listPhoneNumbers;
+            return listHobbies;
 
         }
     }
