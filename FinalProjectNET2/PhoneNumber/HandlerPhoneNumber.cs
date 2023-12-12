@@ -10,9 +10,12 @@ namespace FinalProjectNET2
 {
     public sealed class HandlerPhoneNumber
     {
-        static readonly HandlerPhoneNumber instance = new HandlerPhoneNumber();
 
         static readonly string Constring = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
+
+        static readonly HandlerPhoneNumber instance = new HandlerPhoneNumber();
+
+        
 
         private HandlerPhoneNumber()
         {
@@ -59,7 +62,7 @@ namespace FinalProjectNET2
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table PhoneNumber (PhoneNumberId integer primary key, Number text, Type text);";
+                string table = "create table PhoneNumber (PhoneNumberId integer primary key, Number text, Type text, ResumeId integer);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
@@ -104,6 +107,34 @@ namespace FinalProjectNET2
             return newId;
         }
 
+        public PhoneNumber GetPhoneNumber(int id)
+        {
+            PhoneNumber phoneNumber = new PhoneNumber();
+
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
+
+                SQLiteCommand getcom = new SQLiteCommand("Select * from PhoneNumber WHERE PhoneNumberId = @PhoneNumberId", conn);
+                getcom.Parameters.AddWithValue("@PhoneNumberId", id);
+
+                using (SQLiteDataReader reader = getcom.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (Int32.TryParse(reader["PhoneNumberId"].ToString(), out int id2))
+                        {
+                            phoneNumber.PhoneNumberId = id2;
+                        }
+
+                        phoneNumber.Number = reader["Number"].ToString();
+                        phoneNumber.Type = reader["Type"].ToString();
+                    }
+                }
+            }
+            return phoneNumber;
+        }
+
         public int UpdatePhone(PhoneNumber phoneNumber)
         {
             int row = 0;
@@ -116,7 +147,7 @@ namespace FinalProjectNET2
 
 
                 SQLiteCommand updatecom = new SQLiteCommand(query, conn);
-                updatecom.Parameters.AddWithValue("@Id", phoneNumber.PhoneNumberId);
+                updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
                 updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
                 updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
                 updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
@@ -147,15 +178,13 @@ namespace FinalProjectNET2
                     while (reader.Read())
                     {
                         PhoneNumber phoneNumber = new PhoneNumber();
-                        if (int.TryParse(reader["Id"].ToString(), out int id2))
+                        if (Int32.TryParse(reader["PhoneNumberId"].ToString(), out int id))
                         {
-                            phoneNumber.PhoneNumberId = id2;
+                            phoneNumber.PhoneNumberId = id;
                         }
 
                         phoneNumber.Number = reader["Number"].ToString();
                         phoneNumber.Type = reader["Type"].ToString();
-
-
 
 
                         listPhoneNumbers.Add(phoneNumber);

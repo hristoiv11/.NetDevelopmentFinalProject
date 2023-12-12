@@ -17,7 +17,7 @@ namespace FinalProjectNET2
 
         public override string ToString()
         {
-            string formattted = string.Format("{0}\t {1}\t {2}\t| {3}\t {4}", PhoneNumberId, Number, Type, ResumeId);
+            string formattted = string.Format("{0}\t {1}\t {2}\t| {3}\t ", PhoneNumberId, Number, Type, ResumeId);
             return formattted;
         }
     }
