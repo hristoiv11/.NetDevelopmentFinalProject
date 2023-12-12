@@ -7,6 +7,25 @@
         mc:Ignorable="d"
         Title="UpdateHobbieWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel>
+            <Label Content="Hobbies"/>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Description:"/>
+                <TextBox x:Name="DescriptionTextBox"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Type:"/>
+                <TextBox x:Name="typeTextBox"/>
+            </StackPanel>
+
+            <!--<StackPanel Orientation="Horizontal">
+                <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click"/>
+            </StackPanel>-->
+
+        </StackPanel>
+
+
     </Grid>
 </Window>

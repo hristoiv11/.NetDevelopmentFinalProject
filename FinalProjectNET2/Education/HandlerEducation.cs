@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -30,10 +31,10 @@ namespace FinalProjectNET2
 
 
             };
- 
+
             //seed the table
             AddEducation(newEd);
-            
+
         }
 
         public static HandlerEducation Instance
@@ -76,7 +77,7 @@ namespace FinalProjectNET2
 
                 insertcom.Parameters.AddWithValue("@Name", education.Name);
                 insertcom.Parameters.AddWithValue("@Level", education.Level);
-                insertcom.Parameters.AddWithValue("@Address",education.Address);
+                insertcom.Parameters.AddWithValue("@Address", education.Address);
 
                 try
                 {
@@ -100,7 +101,7 @@ namespace FinalProjectNET2
 
         public Education GetEducation(int id)
         {
-            Education education = new Education();  
+            Education education = new Education();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
@@ -113,13 +114,13 @@ namespace FinalProjectNET2
                 {
                     while (reader.Read())
                     {
-                        if (Int32.TryParse(reader["EducationId"].ToString(), out int id2))
+                        if (int.TryParse(reader["EducationId"].ToString(), out int id2))
                         {
                             education.EducationId = id2;
                         }
 
                         education.Name = reader["Name"].ToString();
-                        education.Level= reader["Level"].ToString();
+                        education.Level = reader["Level"].ToString();
                         education.Address = reader["Address"].ToString();
                     }
                 }
@@ -169,8 +170,8 @@ namespace FinalProjectNET2
                 {
                     while (reader.Read())
                     {
-                        Education education = new Education();  
-                        if (Int32.TryParse(reader["EducationId"].ToString(), out int id))
+                        Education education = new Education();
+                        if (int.TryParse(reader["EducationId"].ToString(), out int id))
                         {
                             education.EducationId = id;
                         }

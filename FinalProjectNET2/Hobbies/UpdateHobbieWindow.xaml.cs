@@ -19,9 +19,26 @@ namespace FinalProjectNET2
     /// </summary>
     public partial class UpdateHobbieWindow : Window
     {
-        public UpdateHobbieWindow()
+        Hobbies hobbie;
+        public UpdateHobbieWindow(Hobbies hobbie)
         {
+            this.hobbie = hobbie;
             InitializeComponent();
+            DescriptionTextBox.Text = hobbie.Description;
+            typeTextBox.Text = hobbie.Type;
+
         }
+
+        //private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //    hobbie.Description = DescriptionTextBox.Text;
+        //    hobbie.Type = typeTextBox.Text;
+
+        //    HandlerPhoneNumber pn = HandlerPhoneNumber.Instance;
+        //    pn.UpdateHobbie(hobbie);
+        //    Close();
+
+        //}
     }
 }

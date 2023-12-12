@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -121,7 +122,7 @@ namespace FinalProjectNET2
                 {
                     while (reader.Read())
                     {
-                        if (Int32.TryParse(reader["HobbiesId"].ToString(), out int id2))
+                        if (int.TryParse(reader["HobbiesId"].ToString(), out int id2))
                         {
                             hobbie.HobbiesId = id2;
                         }
@@ -134,35 +135,35 @@ namespace FinalProjectNET2
             return hobbie;
         }
 
-        public int UpdatePhone(PhoneNumber phoneNumber)
-        {
-            int row = 0;
+        //public int UpdateHobbie(Hobbies hobbies)
+        //{
+        //    int row = 0;
 
-            using (SQLiteConnection conn = new SQLiteConnection(Constring))
-            {
-                conn.Open();
+        //    using (SQLiteConnection conn = new SQLiteConnection(Constring))
+        //    {
+        //        conn.Open();
 
-                string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type, ResumeId = @ResumeId WHERE PhoneNumberId = @PhoneNuberId";
+        //        string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type, ResumeId = @ResumeId WHERE PhoneNumberId = @PhoneNuberId";
 
 
-                SQLiteCommand updatecom = new SQLiteCommand(query, conn);
-                updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
-                updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
-                updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
-                updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
+        //        SQLiteCommand updatecom = new SQLiteCommand(query, conn);
+        //        updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
+        //        updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
+        //        updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
+        //        updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
 
-                try
-                {
-                    row = updatecom.ExecuteNonQuery();
-                }
-                catch (SQLiteException e)
-                {
-                    Console.WriteLine("Error Generated. Details:" + e.ToString());
-                }
+        //        try
+        //        {
+        //            row = updatecom.ExecuteNonQuery();
+        //        }
+        //        catch (SQLiteException e)
+        //        {
+        //            Console.WriteLine("Error Generated. Details:" + e.ToString());
+        //        }
 
-            }
-            return row;
-        }
+        //    }
+        //    return row;
+        //}
         public List<Hobbies> ReadAllHobbies()
         {
             List<Hobbies> listHobbies = new List<Hobbies>();
@@ -177,7 +178,7 @@ namespace FinalProjectNET2
                     while (reader.Read())
                     {
                         Hobbies hobbies = new Hobbies();
-                        if (Int32.TryParse(reader["PhoneNumberId"].ToString(), out int id))
+                        if (int.TryParse(reader["PhoneNumberId"].ToString(), out int id))
                         {
                             hobbies.HobbiesId = id;
                         }
