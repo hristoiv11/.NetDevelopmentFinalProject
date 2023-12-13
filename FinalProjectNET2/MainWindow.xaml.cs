@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32; // Add this for SaveFileDialog
 
 namespace FinalProjectNET2
 {
@@ -197,6 +198,13 @@ namespace FinalProjectNET2
             CreatedOnDate = DateTime.Now;
             CreatedOnUpdateTextBlock.Text = CreatedOnDate.ToString();
             RefreshAllWorkExperiencesList();    
+
+        }
+
+        private void ExportPdf_Click(object sender, RoutedEventArgs e)
+        {
+            ExportToPDF.exportToPDF(workExperience,educations,hobbies,phoneNumbers,references);
+            
 
         }
     }

@@ -31,6 +31,9 @@
                 <Label Content="Updated On: "/>
                 <TextBlock x:Name="CreatedOnUpdateTextBlock" Text="{Binding CreatedOnDate}" Margin="5"/>
             </StackPanel>
+            <StackPanel Margin="40">
+                <Button Content="Export" Click="ExportPdf_Click"/>
+            </StackPanel>
 
 
 
