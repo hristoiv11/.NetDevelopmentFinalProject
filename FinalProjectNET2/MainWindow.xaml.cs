@@ -33,12 +33,17 @@ namespace FinalProjectNET2
         HandlerReferences refe = HandlerReferences.Instance;
         List<References> references;
 
+        HandlerWorkExperience we = HandlerWorkExperience.Instance;
+        List<WorkExperience> workExperience;
 
         public MainWindow()
         {
             InitializeComponent();
             RefreshhAllPhoneNumberList();
             RefreshAllEducationList();
+            RefreshAllHobbiesList();
+            RefreshAllReferencesList();
+            RefreshAllWorkExperiencesList();
 
 
         }
@@ -70,6 +75,13 @@ namespace FinalProjectNET2
             references = refe.ReadAllReferences();
             ReferencesGrid.ItemsSource = references;
         }
+
+        private void RefreshAllWorkExperiencesList()
+        {
+            AllWorkExperiencesGrid.ItemsSource = null;
+            workExperience = we.ReadAllWorkExperiences();
+            AllWorkExperiencesGrid.ItemsSource = workExperience;
+        }
         private void AllPhoneNumberGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PhoneNumber phoneNumber = (PhoneNumber)AllPhoneNumberDataGrid.SelectedItem;
@@ -79,6 +91,18 @@ namespace FinalProjectNET2
                 PhoneNumberDetailsWindow personDetailsWindow = new PhoneNumberDetailsWindow(phoneNumber);
                 personDetailsWindow.ShowDialog();
                 RefreshhAllPhoneNumberList();
+            }
+        }
+
+        private void AllEducationGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Education education = (Education)AllEducationGrid.SelectedItem;
+
+            if (education != null)
+            {
+                EducationDetailsWindow educationDetailsWindow = new EducationDetailsWindow(education);
+                educationDetailsWindow.ShowDialog();
+                RefreshAllEducationList();
             }
         }
 
@@ -94,15 +118,28 @@ namespace FinalProjectNET2
             }
         }
 
-        private void AllEducationGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ReferencesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Education education = (Education)AllEducationGrid.SelectedItem;
+            References references = (References)ReferencesGrid.SelectedItem;
 
-            if (education != null)
+            if (references != null)
             {
-                EducationDetailsWindow educationDetailsWindow = new EducationDetailsWindow(education);
-                educationDetailsWindow.ShowDialog();
-                RefreshAllEducationList();
+                ReferenceDetailsWindow referenceDetailsWindow = new ReferenceDetailsWindow(references);
+                referenceDetailsWindow.ShowDialog();
+                RefreshAllReferencesList();
+
+            }
+        }
+
+        private void AllWorkExperiencesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            WorkExperience workExperience = (WorkExperience)AllWorkExperiencesGrid.SelectedItem;
+
+            if (workExperience != null)
+            {
+                WorkExperienceDetailsWindow workExperienceDetails = new WorkExperienceDetailsWindow(workExperience);
+                workExperienceDetails.ShowDialog();
+                RefreshAllWorkExperiencesList();
             }
         }
 
@@ -127,9 +164,8 @@ namespace FinalProjectNET2
         private void AddHobbie_Click(object sender, RoutedEventArgs e)
         {
             AddHobbieWindow addHobbiewindow = new AddHobbieWindow();
-
             addHobbiewindow.ShowDialog();
-            RefreshAllEducationList();
+            RefreshAllHobbiesList();
 
         }
 
@@ -137,24 +173,17 @@ namespace FinalProjectNET2
         private void AddReference_Click(object sender, RoutedEventArgs e)
         {
             AddReferenceWindow addReferenceWindow = new AddReferenceWindow();
-
-
             addReferenceWindow.ShowDialog();
             RefreshAllReferencesList();
 
         }
 
-        private void ReferencesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AddWorkExperience_Click(object sender, RoutedEventArgs e)
         {
-            References references = (References)ReferencesGrid.SelectedItem;
+            AddWorkExperienceWindow addWorkExperience = new AddWorkExperienceWindow();
+            addWorkExperience.ShowDialog();
+            RefreshAllWorkExperiencesList();    
 
-            if (references != null)
-            {
-                ReferenceDetailsWindow personDetailsWindow = new ReferenceDetailsWindow(references);
-                personDetailsWindow.ShowDialog();
-                RefreshAllReferencesList();
-
-            }
         }
     }
 }

@@ -19,14 +19,15 @@ namespace FinalProjectNET2
     /// </summary>
     public partial class UpdateReferenceWindow : Window
     {
-        References references2;
+        References reference2;
         public UpdateReferenceWindow(References references)
         {
-            this.references2 = references;
+            this.reference2 = references;
             InitializeComponent();
             nameTextBox.Text = references.Name;
             descriptionTextBox.Text = references.Description;
             phoneNumberTextBox.Text = references.PhoneNumber;
+            emailTextBox.Text = references.Email;
             
 
         }
@@ -34,13 +35,14 @@ namespace FinalProjectNET2
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
 
-            //references2.Name = nameTextBox.Text;
-            //references2.Description = descriptionTextBox.Text;
-            //references2.PhoneNumber = phoneNumberTextBox.Text;
+            reference2.Name = nameTextBox.Text;
+            reference2.Description = descriptionTextBox.Text;
+            reference2.PhoneNumber = phoneNumberTextBox.Text;
+            reference2.Email = emailTextBox.Text;
 
-            //HandlerReferences pn = HandlerReferences.Instance;
-            //pn.UpdateP(phoneNumber2);
-            //Close();
+            HandlerReferences pn = HandlerReferences.Instance;
+            pn.UpdateReference(reference2);
+            Close();
 
         }
     }

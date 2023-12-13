@@ -27,9 +27,10 @@ namespace FinalProjectNET2
 
             //Display the user
 
-            NameTextBox.Text = references.Name;
+            nameTextBox.Text = references.Name;
             descriptionTextBox.Text = references.Description;
             phoneNumberTextBox.Text = references.PhoneNumber;
+            emailTextBox.Text = references.Email;
 
         }
 
@@ -42,9 +43,9 @@ namespace FinalProjectNET2
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-            //HandlerReferences pn = HandlerReferences.Instance;
-            //pn.DeleteReference(references2);
-            //Close();
+            HandlerReferences hr = HandlerReferences.Instance;
+            hr.DeleteReference(references2);
+            Close();
         }
     }
 }

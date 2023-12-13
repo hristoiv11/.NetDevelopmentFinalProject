@@ -12,10 +12,8 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Name:" />
-                <TextBox x:Name="NameTextBox" />
+                <TextBox x:Name="nameTextBox" />
             </StackPanel>
-
-
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Description:" />
@@ -25,6 +23,11 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="Phone Number:" />
                 <TextBox x:Name="phoneNumberTextBox" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Email:" />
+                <TextBox x:Name="emailTextBox" />
             </StackPanel>
 
             <Button x:Name="SubmitButton" Content="Submit" Click="SubmitButton_Click" />

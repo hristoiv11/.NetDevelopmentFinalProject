@@ -26,19 +26,13 @@ namespace FinalProjectNET2
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
             Hobbies newHobbie = new Hobbies();
-            newHobbie.Description = HobbiesTextBox.Text;
+            newHobbie.Description = descriptionTextBox.Text;
             newHobbie.Type = typeTextBox.Text;
 
-
-            HandlerHobbies db = HandlerHobbies.Instance;
-            db.AddHobbie(newHobbie);
+            HandlerHobbies hh = HandlerHobbies.Instance;
+            hh.AddHobbie(newHobbie);
             Close();
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Close the window and return false to indicate cancellation
-            DialogResult = false;
-        }
     }
 }

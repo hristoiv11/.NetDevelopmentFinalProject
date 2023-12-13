@@ -11,15 +11,13 @@
             <Label Content="Hobbies Details Window"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Description :  "/>
-                <TextBlock x:Name="DescriptionTextBox" />
+                <TextBlock x:Name="descriptionTextBox" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Type : "/>
-                <TextBlock x:Name="TypeTextBox" />
+                <TextBlock x:Name="typeTextBox" />
             </StackPanel>
-
-
 
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="UpdateBTN" Content="Update" Click="UpdateBTN_Click"/>

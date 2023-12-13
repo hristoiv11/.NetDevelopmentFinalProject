@@ -52,7 +52,7 @@
                 <StackPanel>
                     <TextBlock Style="{StaticResource HeadingStyle}" Text="References"/>
                     <DataGrid x:Name="ReferencesGrid" SelectionChanged="ReferencesGrid_SelectionChanged" RenderTransformOrigin="0.235,0.263"/>
-                    <Button Content="AddReference" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" Click="AddReference_Click" />
+                    <Button Content="Add Reference" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" Click="AddReference_Click" />
                 </StackPanel>
             </Grid>
 
@@ -95,6 +95,10 @@
                 <StackPanel>
                     <TextBlock Style="{StaticResource HeadingStyle}" Text="Work Experience"/>
 
+                    <DataGrid x:Name="AllWorkExperiencesGrid" SelectionChanged="AllWorkExperiencesGrid_SelectionChanged"/>
+
+
+                    <Button Content="Add Work Experience" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" Click="AddWorkExperience_Click"/>
                 </StackPanel>
 
             </Grid>

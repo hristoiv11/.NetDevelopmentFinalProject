@@ -15,25 +15,24 @@ using System.Windows.Shapes;
 namespace FinalProjectNET2
 {
     /// <summary>
-    /// Interaction logic for AddReferenceWindow.xaml
+    /// Interaction logic for AddWorkExperienceWindow.xaml
     /// </summary>
-    public partial class AddReferenceWindow : Window
+    public partial class AddWorkExperienceWindow : Window
     {
-        public AddReferenceWindow()
+        public AddWorkExperienceWindow()
         {
             InitializeComponent();
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            References reference = new References();
-            reference.Name = nameTextBox.Text;
-            reference.Description = descriptionTextBox.Text;
-            reference.PhoneNumber = phoneNumberTextBox.Text;
-            reference.Email = emailTextBox.Text;
+            WorkExperience workExperience = new WorkExperience();
+            workExperience.CompanyName = companyNameTextBox.Text;
+            workExperience.JobTitle = jobTitleTextBox.Text;
+            workExperience.YearsSpent = yearsSpentTextBox.Text;
 
-            HandlerReferences db = HandlerReferences.Instance;
-            db.AddReference(reference);
+            HandlerWorkExperience he = HandlerWorkExperience.Instance;
+            he.AddWorkExperience(workExperience);
             Close();
         }
     }

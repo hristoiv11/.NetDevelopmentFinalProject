@@ -19,23 +19,14 @@ namespace FinalProjectNET2
     /// </summary>
     public partial class HobbiesDetailsWindow : Window
     {
-        public HobbiesDetailsWindow()
-        {
-            InitializeComponent();
-        }
-
         Hobbies hobbies2;
         public HobbiesDetailsWindow(Hobbies hobbies)
         {
             InitializeComponent();
             this.hobbies2 = hobbies;
 
-            //Display the user
-
-            DescriptionTextBox.Text = hobbies.Description;
-
-            TypeTextBox.Text = hobbies.Type;
-
+            descriptionTextBox.Text = hobbies.Description;
+            typeTextBox.Text = hobbies.Type;    
         }
 
         private void UpdateBTN_Click(object sender, RoutedEventArgs e)
@@ -47,7 +38,9 @@ namespace FinalProjectNET2
 
         private void DeleteBTN_Click(object sender, RoutedEventArgs e)
         {
-
+            HandlerHobbies hh = HandlerHobbies.Instance;
+            hh.DeleteHobbie(hobbies2);
+            Close();
         }
     }
 }

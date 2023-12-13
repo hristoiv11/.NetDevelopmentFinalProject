@@ -16,30 +16,23 @@ namespace FinalProjectNET2
         static readonly HandlerHobbies instance = new HandlerHobbies();
 
 
-
         private HandlerHobbies()
         {
             CreateTable();
 
-            Hobbies newHobbie = new Hobbies()
+            Hobbies newHobbie = new Hobbies
             {
                 Description = "I like to read romance books",
                 Type = "Reading",
 
-
-
-
             };
-            Hobbies newHobbie2 = new Hobbies()
+            Hobbies newHobbie2 = new Hobbies
             {
                 Description = "Sitting next to a fire place to relax and think",
                 Type = "Meditation",
 
 
-
             };
-
-
 
             //seed the table
             AddHobbie(newHobbie);
@@ -55,9 +48,9 @@ namespace FinalProjectNET2
         {
             using (SQLiteConnection con = new SQLiteConnection(Constring))
 
-
             {
                 con.Open();
+
                 string drop = "drop table if exists Hobbies;";
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
@@ -98,10 +91,11 @@ namespace FinalProjectNET2
                     // Grab the bottom 32 bits as the unique id of the row
                     newId = Convert.ToInt32(LastRowID64);
                 }
-                catch (SQLiteException ex)
+                catch (SQLiteException e)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Error Generated. Details: " + e.ToString());
                 }
+
             }
 
             return newId;
@@ -122,7 +116,7 @@ namespace FinalProjectNET2
                 {
                     while (reader.Read())
                     {
-                        if (int.TryParse(reader["HobbiesId"].ToString(), out int id2))
+                        if (Int32.TryParse(reader["HobbiesId"].ToString(), out int id2))
                         {
                             hobbie.HobbiesId = id2;
                         }
@@ -135,35 +129,60 @@ namespace FinalProjectNET2
             return hobbie;
         }
 
-        //public int UpdateHobbie(Hobbies hobbies)
-        //{
-        //    int row = 0;
+        public int UpdateHobbie(Hobbies hobbies)
+        {
+            int row = 0;
 
-        //    using (SQLiteConnection conn = new SQLiteConnection(Constring))
-        //    {
-        //        conn.Open();
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
 
-        //        string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type, ResumeId = @ResumeId WHERE PhoneNumberId = @PhoneNuberId";
+                string query = "UPDATE Hobbies SET Description = @Description , Type = @Type WHERE HobbiesId = @HobbiesId";
 
 
-        //        SQLiteCommand updatecom = new SQLiteCommand(query, conn);
-        //        updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
-        //        updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
-        //        updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
-        //        updatecom.Parameters.AddWithValue("@ResumeId", phoneNumber.ResumeId);
+                SQLiteCommand updatecom = new SQLiteCommand(query, conn);
+                updatecom.Parameters.AddWithValue("@HobbiesId", hobbies.HobbiesId);
+                updatecom.Parameters.AddWithValue("@Description", hobbies.Description);
+                updatecom.Parameters.AddWithValue("@Type", hobbies.Type);
+           
+                try
+                {
+                    row = updatecom.ExecuteNonQuery();
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine("Error Generated. Details:" + e.ToString());
+                }
 
-        //        try
-        //        {
-        //            row = updatecom.ExecuteNonQuery();
-        //        }
-        //        catch (SQLiteException e)
-        //        {
-        //            Console.WriteLine("Error Generated. Details:" + e.ToString());
-        //        }
+            }
+            return row;
+        }
 
-        //    }
-        //    return row;
-        //}
+        public int DeleteHobbie(Hobbies hobbies)
+        {
+            int row = 0;
+
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
+
+                string query = "Delete From Hobbies WHERE HobbiesId = @HobbiesId";
+                SQLiteCommand deletecom = new SQLiteCommand(query, conn);
+                deletecom.Parameters.AddWithValue("@HobbiesId", hobbies.HobbiesId);
+
+                try
+                {
+                    row = deletecom.ExecuteNonQuery();
+
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine("Error Generated. Details:" + e.ToString());
+                }
+
+                return row;
+            }
+        }
         public List<Hobbies> ReadAllHobbies()
         {
             List<Hobbies> listHobbies = new List<Hobbies>();
@@ -178,14 +197,13 @@ namespace FinalProjectNET2
                     while (reader.Read())
                     {
                         Hobbies hobbies = new Hobbies();
-                        if (int.TryParse(reader["HobbiesId"].ToString(), out int id))
+                        if (Int32.TryParse(reader["HobbiesId"].ToString(), out int id))
                         {
                             hobbies.HobbiesId = id;
                         }
 
                         hobbies.Description = reader["Description"].ToString();
                         hobbies.Type = reader["Type"].ToString();
-
 
                         listHobbies.Add(hobbies);
                     }

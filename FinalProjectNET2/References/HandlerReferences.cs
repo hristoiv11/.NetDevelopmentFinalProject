@@ -15,17 +15,16 @@ namespace FinalProjectNET2
 
         static readonly HandlerReferences instance = new HandlerReferences();
 
-
-
         private HandlerReferences()
         {
             CreateTable();
 
-            References newRef = new References()
+            References newRef = new References
             {
                 Name = "Jhon Pearson",
                 Description = "Employee of my last job",
-                PhoneNumber = "450-347-2020"
+                PhoneNumber = "450-347-2020",
+                Email = "personemail@gmail.com"
 
             };
            
@@ -47,11 +46,12 @@ namespace FinalProjectNET2
 
             {
                 con.Open();
-                string drop = "drop table if exists References;";
+
+                string drop = "drop table if exists REFERENCE;";
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table References (ReferenceId integer primary key, Name text, Description text, PhoneNumber text);";
+                string table = "create table REFERENCE (ReferenceId integer primary key, Name text, Description text, PhoneNumber text,Email text);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
@@ -70,12 +70,14 @@ namespace FinalProjectNET2
             {
                 con.Open();
 
-                string query = "INSERT INTO References (Name,Description,PhoneNumber) VALUES (@Name, @Description, @PhoneNumber)";
+                string query = "INSERT INTO REFERENCE (Name,Description,PhoneNumber,Email) VALUES (@Name, @Description, @PhoneNumber,@Email)";
                 SQLiteCommand insertcom = new SQLiteCommand(query, con);
 
                 insertcom.Parameters.AddWithValue("@Name", references.Name);
                 insertcom.Parameters.AddWithValue("@Description", references.Description);
                 insertcom.Parameters.AddWithValue("@PhoneNumber", references.PhoneNumber);
+                insertcom.Parameters.AddWithValue("@Email", references.Email);
+                
 
                 try
                 {
@@ -88,9 +90,9 @@ namespace FinalProjectNET2
                     // Grab the bottom 32 bits as the unique id of the row
                     newId = Convert.ToInt32(LastRowID64);
                 }
-                catch (SQLiteException ex)
+                catch (SQLiteException e)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Error Generated. Details: " + e.ToString());
                 }
             }
 
@@ -105,7 +107,7 @@ namespace FinalProjectNET2
             {
                 conn.Open();
 
-                SQLiteCommand getcom = new SQLiteCommand("Select * from References WHERE ReferenceId = @ReferenceId", conn);
+                SQLiteCommand getcom = new SQLiteCommand("Select * from REFERENCE WHERE ReferenceId = @ReferenceId", conn);
                 getcom.Parameters.AddWithValue("@ReferenceId", id);
 
                 using (SQLiteDataReader reader = getcom.ExecuteReader())
@@ -120,67 +122,69 @@ namespace FinalProjectNET2
                         references.Name = reader["Name"].ToString();
                         references.Description = reader["Description"].ToString();
                         references.PhoneNumber = reader["PhoneNumber"].ToString();
+                        references.Email = reader["Email"].ToString();
                     }
                 }
             }
             return references;
         }
 
-        //public int UpdatePhoneNumber(PhoneNumber phoneNumber)
-        //{
-        //    int row = 0;
+        public int UpdateReference(References references)
+        {
+            int row = 0;
 
-        //    using (SQLiteConnection conn = new SQLiteConnection(Constring))
-        //    {
-        //        conn.Open();
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
 
-        //        string query = "UPDATE PhoneNumber SET Number = @Number , Type = @Type WHERE PhoneNumberId = @PhoneNumberId";
-
-
-        //        SQLiteCommand updatecom = new SQLiteCommand(query, conn);
-        //        updatecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
-        //        updatecom.Parameters.AddWithValue("@Number", phoneNumber.Number);
-        //        updatecom.Parameters.AddWithValue("@Type", phoneNumber.Type);
+                string query = "UPDATE REFERENCE SET Name = @Name , Description = @Description,PhoneNumber =@PhoneNumber, Email=@Email WHERE ReferenceId = @ReferenceId";
 
 
-        //        try
-        //        {
-        //            row = updatecom.ExecuteNonQuery();
-        //        }
-        //        catch (SQLiteException e)
-        //        {
-        //            Console.WriteLine("Error Generated. Details:" + e.ToString());
-        //        }
+                SQLiteCommand updatecom = new SQLiteCommand(query, conn);
+                updatecom.Parameters.AddWithValue("@ReferenceId", references.ReferenceId);
+                updatecom.Parameters.AddWithValue("@Name", references.Name);
+                updatecom.Parameters.AddWithValue("@Description", references.Description);
+                updatecom.Parameters.AddWithValue("@PhoneNumber", references.PhoneNumber);
+                updatecom.Parameters.AddWithValue("@Email", references.Email);
 
-        //    }
-        //    return row;
-        //}
+                try
+                {
+                    row = updatecom.ExecuteNonQuery();
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine("Error Generated. Details:" + e.ToString());
+                }
 
-        //public int DeletePhoneNumber(PhoneNumber phoneNumber)
-        //{
-        //    int row = 0;
+            }
+            return row;
+        }
 
-        //    using (SQLiteConnection conn = new SQLiteConnection(Constring))
-        //    {
-        //        conn.Open();
+        public int DeleteReference(References references)
+        {
+            int row = 0;
 
-        //        string query = "Delete From PhoneNumber WHERE PhoneNumberId = @PhoneNumberId";
-        //        SQLiteCommand deletecom = new SQLiteCommand(query, conn);
-        //        deletecom.Parameters.AddWithValue("@PhoneNumberId", phoneNumber.PhoneNumberId);
+            using (SQLiteConnection conn = new SQLiteConnection(Constring))
+            {
+                conn.Open();
 
-        //        try
-        //        {
-        //            row = deletecom.ExecuteNonQuery();
+                string query = "Delete From REFERENCE WHERE ReferenceId = @ReferenceId";
+                SQLiteCommand deletecom = new SQLiteCommand(query, conn);
+                deletecom.Parameters.AddWithValue("@ReferenceId", references.ReferenceId);
 
-        //        }
-        //        catch (SQLiteException e)
-        //        {
-        //            Console.WriteLine("Error Generated. Details:" + e.ToString());
-        //        }
+                try
+                {
+                    row = deletecom.ExecuteNonQuery();
 
-        //        return row;
-        //    }
-        //}
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine("Error Generated. Details:" + e.ToString());
+                }
+
+                return row;
+            }
+        }
 
         public List<References> ReadAllReferences()
         {
@@ -189,7 +193,7 @@ namespace FinalProjectNET2
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
-                SQLiteCommand com = new SQLiteCommand("Select * from References", conn);
+                SQLiteCommand com = new SQLiteCommand("Select * from REFERENCE", conn);
 
                 using (SQLiteDataReader reader = com.ExecuteReader())
                 {
@@ -204,6 +208,7 @@ namespace FinalProjectNET2
                         references.Name = reader["Name"].ToString();
                         references.Description = reader["Description"].ToString();
                         references.PhoneNumber = reader["PhoneNumber"].ToString();
+                        references.Email = reader["Email"].ToString();
 
 
                         listReferences.Add(references);

@@ -13,12 +13,12 @@ namespace FinalProjectNET2
         public string Description { get; set; }
         public string PhoneNumber { get; set; }
 
-
+        public string Email { get; set; }
 
 
         public override string ToString()
         {
-            string formattted = string.Format("{0}\t {1}\t {2}\t {3}", ReferenceId, Name, Description,PhoneNumber);
+            string formattted = string.Format("{0}\t {1}\t {2}\t {3}\t {4}", ReferenceId, Name, Description,PhoneNumber,Email);
             return formattted;
         }
     }

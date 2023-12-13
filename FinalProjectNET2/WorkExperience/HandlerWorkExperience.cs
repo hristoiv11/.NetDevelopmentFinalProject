@@ -8,33 +8,29 @@ using System.Threading.Tasks;
 
 namespace FinalProjectNET2
 {
-    public sealed class HandlerEducation
+    class HandlerWorkExperience
     {
-
         static readonly string Constring = ConfigurationManager.ConnectionStrings["MyDB"].ConnectionString;
 
-        static readonly HandlerEducation instance = new HandlerEducation();
+        static readonly HandlerWorkExperience instance = new HandlerWorkExperience();
 
-
-
-        private HandlerEducation()
+        private HandlerWorkExperience()
         {
             CreateTable();
 
-            Education newEd1 = new Education()
+            WorkExperience workExperience = new WorkExperience
             {
-                InstitutionName = "Saint-Lamber Highschool",
-                Level = "High-School",
-                Address = "750 rue Green",
-
+                CompanyName = "AnyCompany",
+                JobTitle = "Programmer",
+                YearsSpent = "2"
             };
 
             //seed the table
-            AddEducation(newEd1);
+            AddWorkExperience(workExperience);
 
         }
 
-        public static HandlerEducation Instance
+        public static HandlerWorkExperience Instance
         {
             get { return instance; }
         }
@@ -46,17 +42,18 @@ namespace FinalProjectNET2
 
             {
                 con.Open();
-                string drop = "drop table if exists Education;";
+
+                string drop = "drop table if exists WorkExperience;";
                 SQLiteCommand command1 = new SQLiteCommand(drop, con);
                 command1.ExecuteNonQuery();
 
-                string table = "create table Education (EducationId integer primary key, InstitutionName text, Level text, Address text);";
+                string table = "create table WorkExperience (WorkExperienceId integer primary key, CompanyName text, JobTitle text, YearsSpent text);";
                 SQLiteCommand command2 = new SQLiteCommand(table, con);
                 command2.ExecuteNonQuery();
             }
         }
 
-        public int AddEducation(Education education)
+        public int AddWorkExperience(WorkExperience workExperience)
         {
             // Implement your AddPhone method logic here, using the SQLite code provided
             // Ensure to use the SQLite operations for inserting a new phone number
@@ -69,13 +66,13 @@ namespace FinalProjectNET2
             {
                 con.Open();
 
-                string query = "INSERT INTO Education (InstitutionName,Level,Address) VALUES (@InstitutionName, @Level, @Address)";
+                string query = "INSERT INTO WorkExperience (CompanyName,JobTitle,YearsSpent) VALUES (@CompanyName, @JobTitle, @YearsSpent)";
                 SQLiteCommand insertcom = new SQLiteCommand(query, con);
 
-                insertcom.Parameters.AddWithValue("@InstitutionName", education.InstitutionName);
-                insertcom.Parameters.AddWithValue("@Level", education.Level);
-                insertcom.Parameters.AddWithValue("@Address", education.Address);
-
+                insertcom.Parameters.AddWithValue("@CompanyName", workExperience.CompanyName);
+                insertcom.Parameters.AddWithValue("@JobTitle", workExperience.JobTitle);
+                insertcom.Parameters.AddWithValue("@YearsSpent", workExperience.YearsSpent);
+   
                 try
                 {
                     rows = insertcom.ExecuteNonQuery();
@@ -87,45 +84,45 @@ namespace FinalProjectNET2
                     // Grab the bottom 32 bits as the unique id of the row
                     newId = Convert.ToInt32(LastRowID64);
                 }
-                catch (SQLiteException ex)
+                catch (SQLiteException e)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Error Generated. Details: " + e.ToString());
                 }
             }
 
             return newId;
         }
 
-        public Education GetEducation(int id)
+        public WorkExperience GetWorkExperience(int id)
         {
-            Education education = new Education();
+            WorkExperience workExperience = new WorkExperience();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
 
-                SQLiteCommand getcom = new SQLiteCommand("Select * from Education WHERE EducationId = @EducationId", conn);
-                getcom.Parameters.AddWithValue("@EducationId", id);
+                SQLiteCommand getcom = new SQLiteCommand("Select * from WorkExperience WHERE WorkExperienceId = @WorkExperienceId", conn);
+                getcom.Parameters.AddWithValue("@WorkExperienceId", id);
 
                 using (SQLiteDataReader reader = getcom.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if (Int32.TryParse(reader["EducationId"].ToString(), out int id2))
+                        if (Int32.TryParse(reader["WorkExperienceId"].ToString(), out int id2))
                         {
-                            education.EducationId = id2;
+                            workExperience.WorkExperienceId = id2;
                         }
 
-                        education.InstitutionName = reader["InstitutionName"].ToString();
-                        education.Level = reader["Level"].ToString();
-                        education.Address = reader["Address"].ToString();
+                        workExperience.CompanyName = reader["CompanyName"].ToString();
+                        workExperience.JobTitle = reader["JobTitle"].ToString();
+                        workExperience.YearsSpent = reader["YearsSpent"].ToString();
                     }
                 }
             }
-            return education;
+            return workExperience;
         }
 
-        public int UpdateEducation(Education education)
+        public int UpdateWorkExperience(WorkExperience workExperience)
         {
             int row = 0;
 
@@ -133,15 +130,14 @@ namespace FinalProjectNET2
             {
                 conn.Open();
 
-                string query = "UPDATE Education SET InstitutionName = @InstitutionName , Level = @Level,Address = @Address WHERE EducationId = @EducationId";
+                string query = "UPDATE WorkExperience SET CompanyName = @CompanyName , JobTitle = @JobTitle,YearsSpent =@YearsSpent WHERE WorkExperienceId = @WorkExperienceId";
 
 
                 SQLiteCommand updatecom = new SQLiteCommand(query, conn);
-                updatecom.Parameters.AddWithValue("@EducationId", education.EducationId);
-                updatecom.Parameters.AddWithValue("@InstitutionName", education.InstitutionName);
-                updatecom.Parameters.AddWithValue("@Level", education.Level);
-                updatecom.Parameters.AddWithValue("@Address", education.Address);
-                
+                updatecom.Parameters.AddWithValue("@WorkExperienceId", workExperience.WorkExperienceId);
+                updatecom.Parameters.AddWithValue("@CompanyName", workExperience.CompanyName);
+                updatecom.Parameters.AddWithValue("@JobTitle", workExperience.JobTitle);
+                updatecom.Parameters.AddWithValue("@YearsSpent", workExperience.YearsSpent);
 
                 try
                 {
@@ -156,7 +152,7 @@ namespace FinalProjectNET2
             return row;
         }
 
-        public int DeleteEducation(Education education)
+        public int DeleteWorkExperience(WorkExperience workExperience)
         {
             int row = 0;
 
@@ -164,9 +160,9 @@ namespace FinalProjectNET2
             {
                 conn.Open();
 
-                string query = "Delete From Education WHERE EducationId = @EducationId";
+                string query = "Delete From WorkExperience WHERE WorkExperienceId = @WorkExperienceId";
                 SQLiteCommand deletecom = new SQLiteCommand(query, conn);
-                deletecom.Parameters.AddWithValue("@EducationId", education.EducationId);
+                deletecom.Parameters.AddWithValue("@WorkExperienceId", workExperience.WorkExperienceId);
 
                 try
                 {
@@ -181,37 +177,37 @@ namespace FinalProjectNET2
                 return row;
             }
         }
-        public List<Education> ReadAllEducations()
+
+        public List<WorkExperience> ReadAllWorkExperiences()
         {
-            List<Education> listEducation = new List<Education>();
+            List<WorkExperience> listWorkExperiences = new List<WorkExperience>();
 
             using (SQLiteConnection conn = new SQLiteConnection(Constring))
             {
                 conn.Open();
-                SQLiteCommand com = new SQLiteCommand("Select * from Education", conn);
+                SQLiteCommand com = new SQLiteCommand("Select * from WorkExperience", conn);
 
                 using (SQLiteDataReader reader = com.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Education education = new Education();
-                        if (Int32.TryParse(reader["EducationId"].ToString(), out int id))
+                        WorkExperience workExperience = new WorkExperience();
+                        if (Int32.TryParse(reader["WorkExperienceId"].ToString(), out int id))
                         {
-                            education.EducationId = id;
+                            workExperience.WorkExperienceId = id;
                         }
 
-                        education.InstitutionName = reader["InstitutionName"].ToString();
-                        education.Level = reader["Level"].ToString();
-                        education.Address = reader["Address"].ToString();
+                        workExperience.CompanyName = reader["CompanyName"].ToString();
+                        workExperience.JobTitle = reader["JobTitle"].ToString();
+                        workExperience.YearsSpent = reader["YearsSpent"].ToString();
 
-
-                        listEducation.Add(education);
+                        listWorkExperiences.Add(workExperience);
                     }
                 }
 
             }
 
-            return listEducation;
+            return listWorkExperiences;
 
         }
     }
