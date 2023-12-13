@@ -84,12 +84,22 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Style="{StaticResource CellStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-           
-            
+
+
             <TextBlock Grid.Column="0" Style="{StaticResource HeadingStyle}" Text="Your Name Here"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="10">
+                <Label Content="Created On: "/>
+                <TextBlock x:Name="CreatedOnTodayTextBlock" Text="{Binding CreatedOnDate}" Margin="5"/>
+                <Label Content="Updated On: "/>
+                <TextBlock x:Name="CreatedOnUpdateTextBlock" Text="{Binding CreatedOnDate}" Margin="5"/>
+            </StackPanel>
 
-      
+
 
         </Grid>
 

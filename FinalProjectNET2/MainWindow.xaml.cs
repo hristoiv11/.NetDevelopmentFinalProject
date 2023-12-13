@@ -21,6 +21,8 @@ namespace FinalProjectNET2
     public partial class MainWindow : Window
 
     {
+        public DateTime CreatedOnDate { get; set; } = DateTime.Now;
+
         HandlerPhoneNumber db = HandlerPhoneNumber.Instance;
         List<PhoneNumber> phoneNumbers;
 
@@ -44,6 +46,7 @@ namespace FinalProjectNET2
             RefreshAllHobbiesList();
             RefreshAllReferencesList();
             RefreshAllWorkExperiencesList();
+            CreatedOnTodayTextBlock.Text = CreatedOnDate.ToString();
 
 
         }
@@ -146,9 +149,12 @@ namespace FinalProjectNET2
         private void AddPhoneNumber_Click(object sender, RoutedEventArgs e)
         {
             AddPhoneNumberWindow addPhoneNumberWindow = new AddPhoneNumberWindow();
+          
 
 
             addPhoneNumberWindow.ShowDialog();
+            CreatedOnDate = DateTime.Now;
+            CreatedOnUpdateTextBlock.Text = CreatedOnDate.ToString();
             RefreshhAllPhoneNumberList();
         }
 
@@ -157,6 +163,8 @@ namespace FinalProjectNET2
             AddEducationWindow addEducationWindow = new AddEducationWindow();
 
             addEducationWindow.ShowDialog();
+            CreatedOnDate = DateTime.Now;
+            CreatedOnUpdateTextBlock.Text = CreatedOnDate.ToString();
             RefreshAllEducationList();
 
         }
@@ -165,6 +173,8 @@ namespace FinalProjectNET2
         {
             AddHobbieWindow addHobbiewindow = new AddHobbieWindow();
             addHobbiewindow.ShowDialog();
+            CreatedOnDate = DateTime.Now;
+            CreatedOnUpdateTextBlock.Text = CreatedOnDate.ToString();
             RefreshAllHobbiesList();
 
         }
@@ -174,6 +184,8 @@ namespace FinalProjectNET2
         {
             AddReferenceWindow addReferenceWindow = new AddReferenceWindow();
             addReferenceWindow.ShowDialog();
+            CreatedOnDate = DateTime.Now;
+            CreatedOnUpdateTextBlock.Text = CreatedOnDate.ToString();
             RefreshAllReferencesList();
 
         }
@@ -182,6 +194,8 @@ namespace FinalProjectNET2
         {
             AddWorkExperienceWindow addWorkExperience = new AddWorkExperienceWindow();
             addWorkExperience.ShowDialog();
+            CreatedOnDate = DateTime.Now;
+            CreatedOnUpdateTextBlock.Text = CreatedOnDate.ToString();
             RefreshAllWorkExperiencesList();    
 
         }
