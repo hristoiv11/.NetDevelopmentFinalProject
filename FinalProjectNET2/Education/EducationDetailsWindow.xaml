@@ -21,12 +21,12 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Address:" Style="{StaticResource labels}"/>
-                <TextBlock x:Name="addressTextBox" />
+                <TextBlock x:Name="addressTextBox"/>
             </StackPanel>
 
 
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="UpdateBTN" Content="Update" Click="UpdateBTN_Click" />
+                <Button x:Name="UpdateBTN" Content="Update" Click="UpdateBTN_Click"/>
                 <Button x:Name="DeleteBTN" Content="Delete" Click="DeleteBTN_Click"/>
 
             </StackPanel>

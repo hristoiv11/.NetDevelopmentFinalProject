@@ -201,11 +201,9 @@ namespace FinalProjectNET2
 
         }
 
-        private void ExportPdf_Click(object sender, RoutedEventArgs e)
+        private void ExportToPDF_Click(object sender, RoutedEventArgs e)
         {
-            ExportToPDF.exportToPDF(workExperience,educations,hobbies,phoneNumbers,references);
-            
-
+            ExportToPDF.exportToPDF(references, phoneNumbers, hobbies, workExperience, educations);
         }
     }
 }

@@ -22,7 +22,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click"/>
+                <Button x:Name="UpdateButton" Content="Update" Click="UpdateButton_Click" Style="{StaticResource PrimaryB}"/>
             </StackPanel>
 
         </StackPanel>

@@ -8,7 +8,7 @@
         Title="WorkExperienceDetailsWindow" Height="450" Width="400">
     <Grid>
         <StackPanel>
-            <Label Content="Work Experience Details Window" Style="{StaticResource TitleLabelStyle}" />
+            <Label Content="Work Experience Details Window" Style="{StaticResource TitleLabelStyle}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Company Name:" Style="{StaticResource labels}"/>
                 <TextBlock x:Name="companyNameTextBox" />
@@ -21,7 +21,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Years Spent:" Style="{StaticResource labels}"/>
-                <TextBlock x:Name="yearsSpentTextBox" />
+                <TextBlock x:Name="yearsSpentTextBox"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">

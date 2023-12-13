@@ -30,7 +30,7 @@
                 <TextBox x:Name="emailTextBox" />
             </StackPanel>
 
-            <Button x:Name="SubmitButton" Content="Submit" Click="SubmitButton_Click" />
+            <Button x:Name="SubmitButton" Content="Submit" Click="SubmitButton_Click" Style="{StaticResource PrimaryB}"/>
 
         </StackPanel>
 

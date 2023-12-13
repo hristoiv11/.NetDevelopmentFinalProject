@@ -13,20 +13,20 @@
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Institution Name:" Style="{StaticResource labels}"/>
-                <TextBox x:Name="nameTextBox" />
+                <TextBox x:Name="nameTextBox"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Label Content="Level:" Style="{StaticResource labels}" />
-                <TextBox x:Name="levelTextBox" />
+                <Label Content="Level:" Style="{StaticResource labels}"/>
+                <TextBox x:Name="levelTextBox"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <Label Content="Address:" Style="{StaticResource labels}"/>
-                <TextBox x:Name="addressTextBox" />
+                <TextBox x:Name="addressTextBox"/>
             </StackPanel>
 
-            <Button x:Name="SubmitButton" Content="Submit" Click="SubmitButton_Click" />
+            <Button x:Name="SubmitButton" Content="Submit" Click="SubmitButton_Click" Style="{StaticResource PrimaryB}"/>
 
         </StackPanel>
 

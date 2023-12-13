@@ -12,7 +12,7 @@ namespace FinalProjectNET2
 {
     public static class ExportToPDF
     {
-        public static void exportToPDF(List<WorkExperience> people, List<Education> ed,List<Hobbies> hob, List<PhoneNumber> ph, List<References> ree)
+        public static void exportToPDF(List<References> ree, List<PhoneNumber> ph, List<Hobbies> hob, List<WorkExperience> people, List<Education> ed)
         {
             //create a new pdf document
             PdfDocument document = new PdfDocument();
@@ -47,42 +47,45 @@ namespace FinalProjectNET2
             tf.DrawString(title, fontTitle, XBrushes.Red, rect);
 
             //Add Peeps Text
-            string text = "";
-            foreach (WorkExperience p in people)
+
+            string text1 = "";
+            foreach (References re in ree)
             {
-                text += String.Format("\n{0} {1} lives in {2} ans is {3} years old. ", p.CompanyName, p.JobTitle,p.YearsSpent);
+                text1 += String.Format("\n His name is {0} and his email is {1} ,he is {2}, his phone number is {3}. ", re.Name, re.Email, re.Description, re.PhoneNumber);
             }
 
             string text2 = "";
-            foreach (Education e in ed)
+            foreach (PhoneNumber phe in ph)
             {
-                text2 += String.Format("\n{0} {1} lives in {2} ans is {3} years old. ",e.InstitutionName, e.Level, e.Address);
+                text2 += String.Format("\n The number is {0} and the type is {1}.", phe.Number, phe.Type);
             }
 
             string text3 = "";
             foreach (Hobbies he in hob)
             {
-                text3 += String.Format("\n{0} {1} lives in {2}. ", he.Description, he.Type);
+                text3 += String.Format("\n Desctiption:{0} and Type:{1}.", he.Description, he.Type);
             }
 
             string text4 = "";
-            foreach (PhoneNumber phe in ph)
+            foreach (WorkExperience p in people)
             {
-                text4 += String.Format("\n{0} {1} lives in {2}. ", phe.Number, phe.Type);
+                text4 += String.Format("\n Company Name is:{0},Job Title is:{1}, Years Spent:{2}.", p.CompanyName, p.JobTitle,p.YearsSpent);
             }
+
             string text5 = "";
-            foreach (References re in ree)
+            foreach (Education e in ed)
             {
-                text5 += String.Format("\n{0} {1} lives in {2} he is {3} his phone number is {4}. ", re.Name, re.Email, re.Description, re.PhoneNumber);
+                text5 += String.Format("\n Institution Name is:{0}, Level:{1} and the address is:{2}.",e.InstitutionName, e.Level, e.Address);
             }
+
 
             rect = new XRect(10, 220, page.Width - 20, 220);
             tf.Alignment = XParagraphAlignment.Left;
-            tf.DrawString(text, fontBody, XBrushes.Black, rect, XStringFormat.TopLeft);
+            tf.DrawString(text1, fontBody, XBrushes.Black, rect, XStringFormat.TopLeft);
             tf.DrawString(text2, fontBody, XBrushes.Black, rect, XStringFormat.TopCenter);
             tf.DrawString(text3, fontBody, XBrushes.Black, rect, XStringFormat.BottomCenter);
             tf.DrawString(text4, fontBody, XBrushes.Black, rect, XStringFormat.Center);
-            tf.DrawString(text5, fontBody, XBrushes.Black, rect, XStringFormat.Default);
+            tf.DrawString(text5, fontBody, XBrushes.Black, rect, XStringFormat.BottomCenter);
 
             const string filename = "Resume.pdf";
             SaveFileDialog saveFileDialog = new SaveFileDialog();
