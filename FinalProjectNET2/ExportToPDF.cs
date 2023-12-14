@@ -14,78 +14,51 @@ namespace FinalProjectNET2
     {
         public static void exportToPDF(List<References> ree, List<PhoneNumber> ph, List<Hobbies> hob, List<WorkExperience> people, List<Education> ed)
         {
-            //create a new pdf document
             PdfDocument document = new PdfDocument();
             document.Info.Title = "Test PDF Document";
 
-            //create empty page
+            // Create an empty page
             PdfPage page = document.AddPage();
             page.Size = PdfSharp.PageSize.Letter;
 
-            //Get an Xgraphic Object for drawing
+            // Get an XGraphic object for drawing
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
-            //create a font
+            // Create fonts
             XFont fontTitle = new XFont("Verdana", 22);
-
-            XFont subtitle = new XFont("Times New Roman", 18);
-
+            XFont fontSubtitle = new XFont("Times New Roman", 18);
             XFont fontBody = new XFont("Arial", 12);
 
-            //create text formatter
-
+            // Create a text formatter
             XTextFormatter tf = new XTextFormatter(gfx);
 
-            //color page for fun
+            // Color the page for fun
             XRect rect = new XRect(0, 0, page.Width, page.Height);
             gfx.DrawRectangle(XBrushes.BlanchedAlmond, rect);
 
-            //title
-            rect = new XRect(0, 10, page.Width - 20, 50);
+            // Title
+            rect = new XRect(0, 10, page.Width, 50);
             tf.Alignment = XParagraphAlignment.Center;
-            string title = "My Resume!";
-            tf.DrawString(title, fontTitle, XBrushes.Red, rect);
+            tf.DrawString("My Resume!", fontTitle, XBrushes.Red, rect);
 
-            //Add Peeps Text
+            // Add Peeps Text
+            float yPosition = 80;
 
-            string text1 = "";
-            foreach (References re in ree)
-            {
-                text1 += String.Format("\n His name is {0} and his email is {1} ,he is {2}, his phone number is {3}. ", re.Name, re.Email, re.Description, re.PhoneNumber);
-            }
+            yPosition = DrawSectionHeader(tf, "References", fontSubtitle, yPosition);
+            yPosition = DrawSectionContent(tf, FormatReferences(ree), fontBody, yPosition + 10); // Add some extra spacing
 
-            string text2 = "";
-            foreach (PhoneNumber phe in ph)
-            {
-                text2 += String.Format("\n The number is {0} and the type is {1}.", phe.Number, phe.Type);
-            }
+            yPosition = DrawSectionHeader(tf, "Phone Numbers", fontSubtitle, yPosition);
+            yPosition = DrawSectionContent(tf, FormatPhoneNumbers(ph), fontBody, yPosition + 10); // Add some extra spacing
 
-            string text3 = "";
-            foreach (Hobbies he in hob)
-            {
-                text3 += String.Format("\n Desctiption:{0} and Type:{1}.", he.Description, he.Type);
-            }
+            yPosition = DrawSectionHeader(tf, "Hobbies", fontSubtitle, yPosition);
+            yPosition = DrawSectionContent(tf, FormatHobbies(hob), fontBody, yPosition + 10); // Add some extra spacing
 
-            string text4 = "";
-            foreach (WorkExperience p in people)
-            {
-                text4 += String.Format("\n Company Name is:{0},Job Title is:{1}, Years Spent:{2}.", p.CompanyName, p.JobTitle,p.YearsSpent);
-            }
+            yPosition = DrawSectionHeader(tf, "Work Experience", fontSubtitle, yPosition);
+            yPosition = DrawSectionContent(tf, FormatWorkExperience(people), fontBody, yPosition + 10); // Add some extra spacing
 
-            string text5 = "";
-            foreach (Education e in ed)
-            {
-                text5 += String.Format("\n Institution Name is:{0}, Level:{1} and the address is:{2}.",e.InstitutionName, e.Level, e.Address);
-            }
+            yPosition = DrawSectionHeader(tf, "Education", fontSubtitle, yPosition);
+            yPosition = DrawSectionContent(tf, FormatEducation(ed), fontBody, yPosition + 10); // Add some extra spacing
 
-
-            rect = new XRect(10, 220, page.Width - 20, 220);
-            tf.Alignment = XParagraphAlignment.Left;
-            tf.DrawString(text1, fontBody, XBrushes.Black, rect, XStringFormat.TopLeft);
-            tf.DrawString(text2, fontBody, XBrushes.Black, rect, XStringFormat.TopCenter);
-            tf.DrawString(text3, fontBody, XBrushes.Black, rect, XStringFormat.BottomCenter);
-            tf.DrawString(text4, fontBody, XBrushes.Black, rect, XStringFormat.Center);
-            tf.DrawString(text5, fontBody, XBrushes.Black, rect, XStringFormat.BottomCenter);
 
             const string filename = "Resume.pdf";
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -98,6 +71,74 @@ namespace FinalProjectNET2
             {
                 document.Save(saveFileDialog.FileName);
             }
+        }
+
+
+
+        private static string FormatReferences(List<References> ree)
+        {
+            StringBuilder text = new StringBuilder();
+            foreach (References re in ree)
+            {
+                text.AppendLine($"His name is {re.Name} and his email is {re.Email}, he is {re.Description}, his phone number is {re.PhoneNumber}.");
+            }
+            return text.ToString();
+        }
+
+        private static string FormatPhoneNumbers(List<PhoneNumber> ph)
+        {
+            StringBuilder text = new StringBuilder();
+            foreach (PhoneNumber phe in ph)
+            {
+                text.AppendLine($"The number is {phe.Number} and the type is {phe.Type}.");
+            }
+            return text.ToString();
+        }
+
+        private static string FormatHobbies(List<Hobbies> hob)
+        {
+            StringBuilder text = new StringBuilder();
+            foreach (Hobbies he in hob)
+            {
+                text.AppendLine($"Description: {he.Description} and Type: {he.Type}.");
+            }
+            return text.ToString();
+        }
+
+        private static string FormatWorkExperience(List<WorkExperience> people)
+        {
+            StringBuilder text = new StringBuilder();
+            foreach (WorkExperience p in people)
+            {
+                text.AppendLine($"Company Name: {p.CompanyName}, Job Title: {p.JobTitle}, Years Spent: {p.YearsSpent}.");
+            }
+            return text.ToString();
+        }
+
+        private static string FormatEducation(List<Education> ed)
+        {
+            StringBuilder text = new StringBuilder();
+            foreach (Education e in ed)
+            {
+                text.AppendLine($"Institution Name: {e.InstitutionName}, Level: {e.Level}, Address: {e.Address}.");
+            }
+            return text.ToString();
+        }
+
+        private static float DrawSectionHeader(XTextFormatter tf, string header, XFont font, float yPosition)
+        {
+            float sectionHeight = 30;
+            XRect rect = new XRect(10, yPosition, 0, sectionHeight);
+            tf.DrawString(header, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+            return yPosition + sectionHeight;
+        }
+
+        private static float DrawSectionContent(XTextFormatter tf, string content, XFont font, float yPosition)
+        {
+            float sectionHeight = 30;
+            XRect rect = new XRect(10, yPosition, 300, 100);
+            tf.DrawString(content, font, XBrushes.Black, rect, XStringFormat.TopLeft);
+            return yPosition + sectionHeight;
         }
     }
 }
