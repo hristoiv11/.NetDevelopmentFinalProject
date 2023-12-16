@@ -30,20 +30,15 @@ namespace FinalProjectNET2
             PhoneNumber newP2 = new PhoneNumber()
             {
                 Number = "450-312-444",
-                Type = "Home",
-
-            };
-            PhoneNumber newP3 = new PhoneNumber()
-            {
-                Number = "514-222-333",
                 Type = "Personal",
 
             };
+           
 
             //seed the table
             AddPhoneNumber(newP1);
             AddPhoneNumber(newP2);
-            AddPhoneNumber(newP3);
+            
         }
 
         public static HandlerPhoneNumber Instance

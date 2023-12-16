@@ -80,7 +80,7 @@ namespace FinalProjectNET2
             StringBuilder text = new StringBuilder();
             foreach (References re in ree)
             {
-                text.AppendLine($"His name is {re.Name} and his email is {re.Email}, he is {re.Description}, his phone number is {re.PhoneNumber}.");
+                text.AppendLine($"His name is {re.Name} you can contact him on his email {re.Email}. He is an {re.Description}, and if he does't respond throw email, you can call him on his phone number which is {re.PhoneNumber}.");
             }
             return text.ToString();
         }
@@ -90,7 +90,7 @@ namespace FinalProjectNET2
             StringBuilder text = new StringBuilder();
             foreach (PhoneNumber phe in ph)
             {
-                text.AppendLine($"The number is {phe.Number} and the type is {phe.Type}.");
+                text.AppendLine($"My phone number is {phe.Number}. It's my {phe.Type} phone number where you can contact me.");
             }
             return text.ToString();
         }
@@ -100,7 +100,7 @@ namespace FinalProjectNET2
             StringBuilder text = new StringBuilder();
             foreach (Hobbies he in hob)
             {
-                text.AppendLine($"Description: {he.Description} and Type: {he.Type}.");
+                text.AppendLine($"A little description of my hobbie: {he.Description} and the type would be: {he.Type}.");
             }
             return text.ToString();
         }
@@ -110,7 +110,7 @@ namespace FinalProjectNET2
             StringBuilder text = new StringBuilder();
             foreach (WorkExperience p in people)
             {
-                text.AppendLine($"Company Name: {p.CompanyName}, Job Title: {p.JobTitle}, Years Spent: {p.YearsSpent}.");
+                text.AppendLine($"A company I used to work for is called {p.CompanyName}. My job over there was a {p.JobTitle}. I spent {p.YearsSpent} years in this company.");
             }
             return text.ToString();
         }
@@ -120,23 +120,23 @@ namespace FinalProjectNET2
             StringBuilder text = new StringBuilder();
             foreach (Education e in ed)
             {
-                text.AppendLine($"Institution Name: {e.InstitutionName}, Level: {e.Level}, Address: {e.Address}.");
+                text.AppendLine($"The name of the institution I graduaded is {e.InstitutionName}.It was a {e.Level} level. The institution was located on {e.Address}.");
             }
             return text.ToString();
         }
 
         private static float DrawSectionHeader(XTextFormatter tf, string header, XFont font, float yPosition)
         {
-            float sectionHeight = 30;
-            XRect rect = new XRect(10, yPosition, 0, sectionHeight);
+            float sectionHeight = 20;
+            XRect rect = new XRect(250, yPosition, 0, sectionHeight);
             tf.DrawString(header, font, XBrushes.Black, rect, XStringFormat.TopLeft);
             return yPosition + sectionHeight;
         }
 
         private static float DrawSectionContent(XTextFormatter tf, string content, XFont font, float yPosition)
         {
-            float sectionHeight = 30;
-            XRect rect = new XRect(10, yPosition, 300, 100);
+            float sectionHeight = 40;
+            XRect rect = new XRect(50, yPosition, 500, 50);
             tf.DrawString(content, font, XBrushes.Black, rect, XStringFormat.TopLeft);
             return yPosition + sectionHeight;
         }
